@@ -13,6 +13,7 @@ import spring.MemberListPrinter;
 import spring.MemberNotFoundException;
 import spring.MemberRegisterService;
 import spring.RegisterRequest;
+import spring.VersionPrinter;
 import spring.WrongIdPasswordException;
 
 public class MainForSpring {
@@ -22,7 +23,8 @@ public class MainForSpring {
 	public static void main(String[] args) {
 
 		// AnnotationConfigApplicationContext 클래스를 이용해서 스프링 컨테이너를 생성
-		ctx = new AnnotationConfigApplicationContext(AppCtx.class);
+		 ctx = new AnnotationConfigApplicationContext(AppCtx.class);
+		//ctx = new AnnotationConfigApplicationContext(AppConf1.class, AppConf2.class);
 
 		Scanner scan = new Scanner(System.in);
 		while (true) {
@@ -45,21 +47,28 @@ public class MainForSpring {
 			} else if (command.startsWith("info")) {
 				processInfoCommand(command.split(" "));
 				continue;
+			} else if (command.startsWith("version")) {
+				processVersionCommand();
+				continue;
 			}
 			printHelp();
 		}
 	}
-	
+
+	private static void processVersionCommand() {
+		VersionPrinter versionPrinter = ctx.getBean(VersionPrinter.class);
+		versionPrinter.print();
+	}
+
 	private static void processInfoCommand(String[] args) {
 		if (args.length != 2) {
 			printHelp();
 			return;
 		}
-		
+
 		MemberInfoPrinter infoPrinter = ctx.getBean("infoPrinter", MemberInfoPrinter.class);
 		infoPrinter.printMemberInfo(args[1]);
 	}
-
 
 	private static void processListCommand() {
 		MemberListPrinter listPrinter = ctx.getBean("listPrinter", MemberListPrinter.class);
@@ -129,6 +138,7 @@ public class MainForSpring {
 		System.out.println("change 이메일 현재비번 변경비번");
 		System.out.println("list");
 		System.out.println("info 이메일");
+		System.out.println("version");
 		System.out.println();
 	}
 }

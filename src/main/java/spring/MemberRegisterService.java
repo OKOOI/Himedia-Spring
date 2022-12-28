@@ -2,10 +2,17 @@ package spring;
 
 import java.time.LocalDateTime;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 public class MemberRegisterService {
 
-	// 회원 정보를 다루는 DAO 객체를 필드로 선언
+	@Autowired
 	private MemberDao memberDao;
+
+	public MemberRegisterService() { 		
+		
+	}
+
 
 	// 생성자를 통해서 필드를 초기화
 	public MemberRegisterService(MemberDao memberDao) {
